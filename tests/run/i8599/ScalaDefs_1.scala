@@ -1,9 +1,9 @@
 trait A {
   val a: Int = 1
-}
 
-trait B {
-  val b: Int = 2
-}
+  val b: String = "abcd"
 
-class ScalaClass extends A with B
+  val c: Object = "efgh"
+
+  // val d: Nothing = ???
+}

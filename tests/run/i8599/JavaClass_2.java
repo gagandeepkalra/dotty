@@ -1,5 +1,2 @@
-public class JavaClass_2 extends ScalaClass {
-  public int c() {
-    return a() + b();
-  }
+public class JavaClass_2 implements A {
 }

@@ -172,9 +172,11 @@ class Mixin extends MiniPhase with SymTransformer { thisPhase =>
       && !sym.isConstExprFinalVal
 
   private def makeTraitSetter(getter: TermSymbol)(using Context): Symbol =
+    println(getter)
+    println(getter.flagsString)
     getter.copy(
       name = Mixin.traitSetterName(getter),
-      flags = Method | Accessor | Deferred,
+      flags = Method | Accessor, // | Deferred,
       info = MethodType(getter.info.resultType :: Nil, defn.UnitType))
 
   override def transformTemplate(impl: Template)(using Context): Template = {
@@ -186,7 +188,7 @@ class Mixin extends MiniPhase with SymTransformer { thisPhase =>
       stats.flatMap {
         case stat: DefDef if needsTraitSetter(stat.symbol) =>
           // add a trait setter for this getter
-          stat :: DefDef(stat.symbol.traitSetter.asTerm, EmptyTree) :: Nil
+          stat :: DefDef(stat.symbol.traitSetter.asTerm, Literal(Constants.Constant(()))) :: Nil
         case stat: DefDef if stat.symbol.isSetter =>
           cpy.DefDef(stat)(rhs = EmptyTree) :: Nil
         case stat =>
